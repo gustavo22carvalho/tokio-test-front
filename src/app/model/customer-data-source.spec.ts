@@ -1,5 +1,5 @@
 import { CustomerDataSource } from './customer-data-source';
-import { ApiService } from './api.service';
+import { ApiService } from '../service/api.service';
 
 describe('CustomerDataSource', () => {
   it('should create an instance', () => {

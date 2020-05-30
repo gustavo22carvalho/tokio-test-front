@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { CustomerDataSource } from '../customer-data-source';
-import { ApiService } from '../api.service';
+import { CustomerDataSource } from '../model/customer-data-source';
+import { ApiService } from '../service/api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { tap } from 'rxjs/internal/operators/tap';

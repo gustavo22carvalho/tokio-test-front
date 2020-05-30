@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {Observable, BehaviorSubject, of} from 'rxjs';
 import {catchError, finalize} from 'rxjs/operators';
 import {Customer} from './customer';
-import {ApiService} from './api.service';
+import {ApiService} from '../service/api.service';
 
 export class CustomerDataSource implements DataSource<Customer> {
 
