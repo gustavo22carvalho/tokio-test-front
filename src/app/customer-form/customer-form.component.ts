@@ -5,6 +5,7 @@ import { Address } from '../model/address';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-customer-form',
@@ -14,7 +15,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class CustomerFormComponent implements OnInit {
 
   customerForm: FormGroup;
-  adresses = new BehaviorSubject<Address[]>([]);
+  addresses = new BehaviorSubject<Address[]>([]);
 
   constructor(
     private fb: FormBuilder,
@@ -31,9 +32,9 @@ export class CustomerFormComponent implements OnInit {
   }
 
   addAddress(address: Address) {
-    let newAdresses = this.adresses.getValue();
+    let newAdresses = this.addresses.getValue();
     newAdresses.push(address);
-    this.adresses.next(newAdresses);
+    this.addresses.next(newAdresses);
   }
 
   createAddress() {
@@ -42,17 +43,32 @@ export class CustomerFormComponent implements OnInit {
 
   save() {
     let customer = this.customerForm.value;
-    customer['adresses'] = this.adresses.getValue();
     this.apiService.saveCustomer(customer)
       .subscribe(
         response => {
           this.customerForm.patchValue({ id: response.id });
           alert('Cliente salvo com sucesso!');
-          //TODO reload table
+          alert('Salvando endereços!'); //TODO adicionar notificação assincrona
+          this.apiService
+            .saveAddresses(this.addresses.getValue()
+              .filter(address => address.id == null || address.id == undefined || address.id.toString().length <= 0)
+              .map(address => {
+                console.log("### MAP", address)
+                address['customer'] = {id: this.customerForm.get('id').value};
+                return address;
+              }))
+            .subscribe(
+              response => {
+                this.apiService.listAddressesByCustomer(this.customerForm.get('id').value)
+                  .subscribe(
+                    response => this.addresses.next(response),
+                    error => alert(error['message'])
+                  );
+              },
+              erro => alert('Falha ao salvar endereços')
+            );
         },
-        error => {
-          alert(`Falha ao salvar cliente: ${error}`);
-        }
+        error => alert(`Falha ao salvar cliente: ${error}`)
       );
   }
 
@@ -64,7 +80,6 @@ export class CustomerFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log('AFTER: The dialog was closed', result);
         this.addAddress(result);
       }
     });

@@ -21,6 +21,7 @@
     <hr>
     <pre>{{ customerForm.value | json}}</pre>
     <pre>{{ customerForm.valid | json }}</pre>
+    <pre>{{ addresses.getValue() | json }}</pre>
   </span>
 </form>
-<app-address-list [data-list]="adresses"></app-address-list>
+<app-address-list [data-list]="addresses"></app-address-list>
