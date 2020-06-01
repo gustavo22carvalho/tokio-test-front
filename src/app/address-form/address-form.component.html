@@ -1,1 +1,47 @@
-<p>address-form works!</p>
+<h1 mat-dialog-title>Endereço</h1>
+<div mat-dialog-content>
+  <form [formGroup]="addressForm">
+    <mat-grid-list cols="2" rowHeight="300px">
+      <mat-grid-tile>
+        <div class="controles-container">
+          <mat-form-field>
+            <input formControlName="cep" (blur)="findCep()" matInput maxlength="8" placeholder="Cep: ">
+            <mat-error>CEP é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="logradouro" matInput placeholder="Rua: ">
+            <mat-error>Rua é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="complemento" matInput placeholder="Complemento: ">
+            <mat-error>Complemento é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="numero" matInput placeholder="Número: ">
+            <mat-error>Número é obrigatório</mat-error>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="controles-container">
+          <mat-form-field>
+            <input formControlName="bairro" matInput placeholder="Bairro: ">
+            <mat-error>Bairro é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="localidade" matInput placeholder="Cidade: ">
+            <mat-error>Cidade é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="uf" matInput placeholder="UF: ">
+            <mat-error>UF é obrigatório</mat-error>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onReset()" [mat-dialog-close] type="reset">Cancelar</button>
+  <button mat-raised-button (click)="onSubmit()" [disabled]="!addressForm.valid" type="submit" color="accent">Adicionar</button>
+</div>

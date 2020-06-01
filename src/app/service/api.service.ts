@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Customer } from '../model/customer';
 import { environment } from '../../environments/environment';
 
@@ -26,13 +26,12 @@ export class ApiService {
       );
   }
 
-  save(customer: Customer): any {
-    console.log('save', customer);
-    this.http.post(this.API_URL + this.API_CUSTOMERS, { customer })
-      .pipe(response => {
-        console.log(response);
-        return response;
-      });
+  saveCustomer(customer: Customer): any {
+    return this.http.post(this.API_URL + this.API_CUSTOMERS, { customer });
+  }
+
+  findCep(cep: String): any {
+    return this.http.get(`https://viacep.com.br/ws/${cep}/json`);
   }
 
 }

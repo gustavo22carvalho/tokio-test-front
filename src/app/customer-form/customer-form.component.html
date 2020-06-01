@@ -1,69 +1,26 @@
-<div class="container-fluid">
-  <form [formGroup]="customerForm" (submit)="save()">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="name">Nome:</label>
-        <input type="text" formControlName="name" class="form-control">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class=" form-group col-md-6">
-        <label for="email" >E-mail:</label>
-        <input type="email" formControlName="email" class="form-control">
-      </div>
-    </div>
-    <fieldset>
-      <legend>Endereços</legend>
-      <div>
-        <button (click)="addAddress()">Adicionar endereço</button>
-      </div>
-      <hr>
-      <div formArrayName="adresses">
-        <div *ngFor="let address of adresses.controls">
-          <div [formGroup]="address">
-            <div>
-              <label for="cep" >Cep:</label>
-              <input type="text" formControlName="cep">
-            </div>
-            <div>
-              <label for="logradouro" >logradouro:</label>
-              <input type="text" formControlName="logradouro">
-            </div>
-            <div>
-              <label for="complemento" >complemento:</label>
-              <input type="text" formControlName="complemento">
-            </div>
-            <div>
-              <label for="bairro" >bairro:</label>
-              <input type="text" formControlName="bairro">
-            </div>
-            <div>
-              <label for="localidade" >localidade:</label>
-              <input type="text" formControlName="localidade">
-            </div>
-            <div>
-              <label for="uf" >uf:</label>
-              <input type="text" formControlName="uf">
-            </div>
-            <div>
-              <label for="unidade" >unidade:</label>
-              <input type="text" formControlName="unidade">
-            </div>
-          </div>
-          <hr>
+<form [formGroup]="customerForm" (submit)="save()">
+  <mat-grid-list cols="1" rowHeight="200px">
+    <mat-grid-tile>
+      <div class="controles-container">
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Nome: ">
+          <mat-error>Nome é obrigatório</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="email" type="email" matInput placeholder="E-mail: ">
+          <mat-error>E-mail é obrigatório</mat-error>
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button [disabled]="false" type="submit" color="accent">Enviar dados</button>
+          <button mat-raised-button (click)="createAddress()" type="button" color="primary">Adicionar endereço</button>
         </div>
       </div>
-    </fieldset>
-    <div>
-      <button [disabled]="false">Enviar dados</button> <!-- TODO habilitar controle do botão -->
-    </div>
-
-    <br>
-    <br>
-
-    <span style="border: 10px solid royalblue;">
-      <pre>{{ customerForm.value | json}}</pre>
-      <pre>{{ customerForm.valid | json }}</pre>
-    </span>
-  </form>
-</div>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <span>
+    <hr>
+    <pre>{{ customerForm.value | json}}</pre>
+    <pre>{{ customerForm.valid | json }}</pre>
+  </span>
+</form>
+<app-address-list [data-list]="adresses"></app-address-list>

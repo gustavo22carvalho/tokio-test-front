@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-  MatSortModule, MatTableModule, MatDivider, MatDividerModule, MatGridListModule } from '@angular/material';
+  MatSortModule, MatTableModule, MatDivider, MatDividerModule, MatGridListModule, MatDialogModule, MatButtonModule, MatToolbarModule } from '@angular/material';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
@@ -21,15 +21,17 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
 
 import { ApiService } from './service/api.service';
 import { AddressFormComponent } from './address-form/address-form.component';
-
+import { AddressListComponent } from './address-list/address-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
     CustomerFormComponent,
-    AddressFormComponent
+    AddressFormComponent,
+    AddressListComponent
   ],
+  entryComponents: [AddressFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,7 +50,10 @@ import { AddressFormComponent } from './address-form/address-form.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatDividerModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatToolbarModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

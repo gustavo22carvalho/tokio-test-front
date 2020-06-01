@@ -36,7 +36,6 @@ export class CustomerDataSource implements DataSource<Customer> {
             finalize(() => this.loadingSubject.next(false))
         )
         .subscribe(customersPage => {
-          console.log(customersPage);
           this.lastResponsePage = customersPage;
           return this.customerSubject.next(customersPage['content']);
         });
