@@ -1,6 +1,7 @@
-<div>
-  <a mat-raised-button routerLink="/clientes/novo" routerLinkActive="active">text</a>
+<div style="text-align: right; margin: 15px 0px;">
+  <a mat-raised-button routerLink="/clientes/novo" routerLinkActive="active" color="primary">Adicionar cliente</a>
 </div>
+
 <div>
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
@@ -12,13 +13,23 @@
         <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
         <mat-cell class="id-cell" *matCellDef="let customer">{{customer.id}}</mat-cell>
       </ng-container>
+
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
         <mat-cell class="name-cell" *matCellDef="let customer">{{customer.name}}</mat-cell>
       </ng-container>
+
       <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>E-mail</mat-header-cell>
         <mat-cell class="email-cell" *matCellDef="let customer">{{customer.email}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="options" stickyEnd>
+        <mat-header-cell *matHeaderCellDef>Opções</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+          <button mat-icon-button [routerLink]="'/clientes/' + customer.id"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button (click)="delete(customer)"><mat-icon>delete</mat-icon></button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -27,6 +38,6 @@
 
     </mat-table>
     <mat-paginator [length]="dataSource.lastResponsePage == null ? 0 : dataSource.lastResponsePage.totalElements"
-      [pageSize]="25" [pageSizeOptions]="[1, 25, 50, 100]"></mat-paginator>
+      [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
   </div>
 </div>

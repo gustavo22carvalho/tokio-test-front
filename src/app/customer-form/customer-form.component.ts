@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
 
 @Component({
   selector: 'app-customer-form',
@@ -18,6 +20,7 @@ export class CustomerFormComponent implements OnInit {
   addresses = new BehaviorSubject<Address[]>([]);
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private apiService: ApiService,
     public dialog: MatDialog
@@ -29,6 +32,21 @@ export class CustomerFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]]
     });
+
+    let idCustomer = this.route.snapshot.paramMap.get('id');
+    if(idCustomer !== 'novo'){
+      this.apiService.findCustomerById(idCustomer)
+      .subscribe(
+        reponse => this.customerForm.setValue(reponse),
+        error => alert('Faha ao consultar cliente: ' + error.error['message'])
+      );
+
+      this.apiService.listAddressesByCustomer(idCustomer)
+      .subscribe(
+        reponse => this.addresses.next(reponse),
+        error => alert('Faha ao consultar endereços: ' + error.error['message'])
+      );
+    }
   }
 
   addAddress(address: Address) {
@@ -53,7 +71,6 @@ export class CustomerFormComponent implements OnInit {
             .saveAddresses(this.addresses.getValue()
               .filter(address => address.id == null || address.id == undefined || address.id.toString().length <= 0)
               .map(address => {
-                console.log("### MAP", address)
                 address['customer'] = {id: this.customerForm.get('id').value};
                 return address;
               }))
@@ -62,13 +79,13 @@ export class CustomerFormComponent implements OnInit {
                 this.apiService.listAddressesByCustomer(this.customerForm.get('id').value)
                   .subscribe(
                     response => this.addresses.next(response),
-                    error => alert(error['message'])
+                    error => alert(error.error['message'])
                   );
               },
               erro => alert('Falha ao salvar endereços')
             );
         },
-        error => alert(`Falha ao salvar cliente: ${error}`)
+        error => alert(`Falha ao salvar cliente: ${error.error['message']}`)
       );
   }
 

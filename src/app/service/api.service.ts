@@ -29,7 +29,7 @@ export class ApiService {
       );
   }
 
-  listAddressesByCustomer(id: number): any {
+  listAddressesByCustomer(id: string): any {
     return this.http.get(`${this.API_URL}${API_CUSTOMERS}/${id}${API_ADDRESSES}`);
   }
 
@@ -37,8 +37,20 @@ export class ApiService {
     return this.http.request( (!!customer.id ? 'PUT' : 'POST'), this.API_URL + API_CUSTOMERS, { body: customer });
   }
 
+  deleteCustomer(customer: Customer): any {
+    return this.http.request('DELETE', `${this.API_URL}${API_CUSTOMERS}`, { body: customer });
+  }
+
   saveAddresses(addresses: Address[]): any {
     return this.http.post(this.API_URL + API_ADDRESSES, { 'addresses': addresses } );
+  }
+
+  deleteAddresses(address: Address): any {
+    return this.http.request('DELETE', `${this.API_URL}${API_ADDRESSES}`, { body: address });
+  }
+
+  findCustomerById(id: string):any {
+    return this.http.get(`${this.API_URL}${API_CUSTOMERS}/${id}`);
   }
 
   findCep(cep: String): any {

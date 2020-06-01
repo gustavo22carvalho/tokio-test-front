@@ -13,7 +13,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 export class CustomerListComponent implements OnInit, AfterViewInit {
 
   dataSource: CustomerDataSource;
-  displayedColumns = ['id', 'name', 'email'];
+  displayedColumns = ['id', 'name', 'email', 'options'];
 
   @ViewChild(MatPaginator, {read: null, static: false}) paginator: MatPaginator;
 
@@ -33,13 +33,24 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new CustomerDataSource(this.apiService);
-    this.dataSource.loadAccessLogs(0, 25);
+    this.dataSource.loadAccessLogs(0, 10);
   }
 
   loadAccessLogsPage() {
     this.dataSource.loadAccessLogs(
         this.paginator.pageIndex,
         this.paginator.pageSize);
-}
+  }
+
+  delete(customer){
+    this.apiService.deleteCustomer(customer)
+      .subscribe(
+        response => {
+          this.loadAccessLogsPage();
+          alert('Cliente removido com sucesso')
+        },
+        error => alert('Falha ao remover cliente: ' + error.error['message'])
+      );
+  }
 
 }

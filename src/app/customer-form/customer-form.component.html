@@ -10,18 +10,13 @@
           <input formControlName="email" type="email" matInput placeholder="E-mail: ">
           <mat-error>E-mail é obrigatório</mat-error>
         </mat-form-field>
-        <div class="button-row">
-          <button mat-raised-button [disabled]="false" type="submit" color="accent">Enviar dados</button>
-          <button mat-raised-button (click)="createAddress()" type="button" color="primary">Adicionar endereço</button>
+        <div class="button-row" style="text-align: center;">
+            <button mat-raised-button [disabled]="false" type="submit" color="accent">Enviar dados</button>
+            <button mat-raised-button (click)="createAddress()" type="button" color="primary">Adicionar endereço</button>
+            <button mat-button routerLink="/clientes" type="button" >Cancelar</button>
         </div>
       </div>
     </mat-grid-tile>
   </mat-grid-list>
-  <span>
-    <hr>
-    <pre>{{ customerForm.value | json}}</pre>
-    <pre>{{ customerForm.valid | json }}</pre>
-    <pre>{{ addresses.getValue() | json }}</pre>
-  </span>
 </form>
 <app-address-list [data-list]="addresses"></app-address-list>

@@ -18,16 +18,15 @@ export class AddressFormComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     public dialogRef: MatDialogRef<AddressFormComponent>,
-    //@Inject(MAT_DIALOG_DATA) public data: Address
   ) { }
 
   ngOnInit() {
     this.addressForm = this.fb.group({
       id: [''],
-      cep: ['68743170', [Validators.required, new CepValidator() ]],
+      cep: ['', [Validators.required, new CepValidator() ]],
       logradouro: ['', [Validators.required]],
       complemento: [''],
-      numero: ['371', Validators.required],
+      numero: ['', Validators.required],
       bairro: ['', [Validators.required]],
       localidade: ['', [Validators.required]],
       uf: ['', [Validators.required]],
@@ -38,9 +37,7 @@ export class AddressFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("SUBMIT - AddressForm")
     let address = this.addressForm.value as Address;
-    // this.data.idCustomer = address.cep;
     this.dialogRef.close(address);
   }
 
